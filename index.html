@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi Tools Web - Mr.Syah988</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center; 
+            margin: 20px; 
+            background: linear-gradient(to right, #1e3c72, #2a5298), url('https://via.placeholder.com/1500x1000?text=Multi+Tool');
+            background-size: cover;
+            background-position: center;
+            color: white; 
+        }
+        .container { 
+            max-width: 600px; 
+            margin: auto; 
+            backdrop-filter: blur(8px); 
+            background: rgba(255, 255, 255, 0.2); 
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .tool { 
+            background: white; 
+            color: black; 
+            border-radius: 8px; 
+            padding: 15px; 
+            margin: 10px; 
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+        }
+        button { 
+            background-color: #2a5298; 
+            color: white; 
+            border: none; 
+            padding: 10px; 
+            margin-top: 5px; 
+            cursor: pointer; 
+            border-radius: 5px; 
+        }
+        button:hover { background-color: #1e3c72; }
+        input, select { 
+            padding: 8px; 
+            margin: 5px; 
+            border-radius: 5px; 
+            border: 1px solid #ccc; 
+            width: calc(100% - 20px);
+        }
+    </style>
+</head>
+<body>
+    <h1>Multi Tools Web</h1>
+    <div class="container">
+        <!-- Kalkulator Asas -->
+        <div class="tool">
+            <h2>Kalkulator</h2>
+            <input type="number" id="num1" placeholder="Masukkan nombor pertama">
+            <input type="number" id="num2" placeholder="Masukkan nombor kedua">
+            <select id="operation">
+                <option value="+">Tambah</option>
+                <option value="-">Tolak</option>
+                <option value="*">Darab</option>
+                <option value="/">Bahagi</option>
+            </select>
+            <button onclick="calculate()">Kira</button>
+            <p>Hasil: <span id="calcResult">0</span></p>
+        </div>
+
+        <!-- Penukar Unit -->
+        <div class="tool">
+            <h2>Penukar Unit (Meter ke Kilometer)</h2>
+            <input type="number" id="meter" placeholder="Masukkan meter">
+            <button onclick="convertUnit()">Tukar</button>
+            <p>Hasil: <span id="unitResult">0</span> km</p>
+        </div>
+
+        <!-- To-Do List -->
+        <div class="tool">
+            <h2>Senarai Tugasan</h2>
+            <input type="text" id="taskInput" placeholder="Tambah tugasan">
+            <button onclick="addTask()">Tambah</button>
+            <ul id="taskList"></ul>
+        </div>
+
+        <!-- WhatsApp Link Generator -->
+        <div class="tool">
+            <h2>WhatsApp Link Generator</h2>
+            <input type="text" id="phoneNumber" placeholder="Masukkan nombor telefon dengan kod negara (cth: 60123456789)">
+            <input type="text" id="message" placeholder="Masukkan mesej (opsional)">
+            <button onclick="generateWhatsAppLink()">Buat Link</button>
+            <button onclick="copyWhatsAppLink()">Copy Link</button>
+            <p><a id="whatsappLink" href="#" target="_blank">Klik untuk WhatsApp</a></p>
+        </div>
+    </div>
+    <footer style="margin-top: 20px; color: white; font-weight: bold;">&copy; 2025 Mr.Syah988</footer>
+
+    <script>
+        function calculate() {
+            let num1 = parseFloat(document.getElementById("num1").value) || 0;
+            let num2 = parseFloat(document.getElementById("num2").value) || 0;
+            let operation = document.getElementById("operation").value;
+            let result;
+            switch (operation) {
+                case '+': result = num1 + num2; break;
+                case '-': result = num1 - num2; break;
+                case '*': result = num1 * num2; break;
+                case '/': result = num2 !== 0 ? num1 / num2 : 'Error'; break;
+                default: result = 0;
+            }
+            document.getElementById("calcResult").innerText = result;
+        }
+
+        function convertUnit() {
+            let meter = parseFloat(document.getElementById("meter").value) || 0;
+            document.getElementById("unitResult").innerText = (meter / 1000).toFixed(2);
+        }
+
+        function addTask() {
+            let taskInput = document.getElementById("taskInput").value;
+            if (taskInput.trim() !== "") {
+                let li = document.createElement("li");
+                li.textContent = taskInput;
+                document.getElementById("taskList").appendChild(li);
+                document.getElementById("taskInput").value = "";
+            }
+        }
+
+        function generateWhatsAppLink() {
+            let phone = document.getElementById("phoneNumber").value.trim();
+            let message = encodeURIComponent(document.getElementById("message").value.trim());
+            if (phone !== "") {
+                let link = `https://wa.me/${phone}${message ? "?text=" + message : ""}`;
+                document.getElementById("whatsappLink").href = link;
+                document.getElementById("whatsappLink").innerText = "Klik untuk WhatsApp";
+            }
+        }
+
+        function copyWhatsAppLink() {
+            let link = document.getElementById("whatsappLink").href;
+            navigator.clipboard.writeText(link).then(() => {
+                alert("Link WhatsApp telah disalin!");
+            });
+        }
+    </script>
+</body>
+</html>
